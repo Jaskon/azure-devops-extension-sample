@@ -1,0 +1,26 @@
+{
+    "contributions": [
+        {
+            "id": "custom-build-result-tab",
+            "type": "ms.vss-build-web.build-results-tab",
+            "targets": [
+                "ms.vss-build-web.build-results-view"
+            ],
+            "properties": {
+                "name": "OX pipeline",
+                "uri": "dist/build-result-tab/build-result-tab.html",
+                "icon": {
+                    "light": "static/app_folder.png",
+                    "dark": "static/app_folder.png"
+                }
+            }
+        }
+    ],
+    "scopes": [
+        "vso.serviceendpoint_manage",
+        "vso.project",
+        "vso.project_manage",
+        "vso.identity",
+        "vso.identity_manage"
+    ]
+}
