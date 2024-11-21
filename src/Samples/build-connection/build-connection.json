@@ -1,0 +1,35 @@
+{
+    "contributions": [
+        {
+            "id": "snyk-service-connection-endpoint",
+            "description": "Custom",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": ["ms.vss-endpoint.endpoint-types"],
+            "properties": {
+                "name": "CustomAuth",
+                "displayName": "Custom Authentication",
+                "url": "https://google.com/",
+                "authenticationSchemes": [
+                    {
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token",
+                        "inputDescriptors": [
+                            {
+                                "id": "apitoken",
+                                "name": "API token",
+                                "description": "Log into your <a href=\"https://google.com/\">Account</a> to get your token.",
+                                "inputMode": "textbox",
+                                "isConfidential": true,
+                                "validation": {
+                                    "isRequired": true,
+                                    "dataType": "guid"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "helpMarkDown": "Log into your <a href=\"https://google.com/\">Account</a> to get your token."
+            }
+        }
+    ],
+    "scopes": []
+}
