@@ -7,9 +7,7 @@ import { Header } from "azure-devops-ui/Header";
 import { Page } from "azure-devops-ui/Page";
 
 import { showRootComponent } from "../../Common";
-import {CommonServiceIds, getClient, IExtensionDataService, IProjectPageService} from "azure-devops-extension-api";
-import {IExtensionDataManager} from "azure-devops-extension-api/Common/CommonServices";
-import {ServiceEndpointRestClient} from "azure-devops-extension-api/ServiceEndpoint";
+import {CommonServiceIds, IProjectPageService} from "azure-devops-extension-api";
 
 interface IBuildResultTab {
     projectContext: any;
@@ -17,21 +15,9 @@ interface IBuildResultTab {
 }
 
 class BuildResultTab extends React.Component<{}, IBuildResultTab> {
-    private _dataManager: IExtensionDataManager | null = null;
-
     constructor(props: {}) {
         super(props);
         this.state = { projectContext: undefined, tokenInput: undefined };
-    }
-
-    private async sdkReadiness() {
-        await SDK.ready();
-
-        if (!this._dataManager) {
-            const accessToken = await SDK.getAccessToken();
-            const extDataService = await SDK.getService<IExtensionDataService>(CommonServiceIds.ExtensionDataService);
-            this._dataManager = await extDataService.getExtensionDataManager(SDK.getExtensionContext().id, accessToken);
-        }
     }
 
     public componentDidMount() {
@@ -50,45 +36,6 @@ class BuildResultTab extends React.Component<{}, IBuildResultTab> {
         }
     }
 
-    public async applyToken() {
-        await this.sdkReadiness();
-
-        console.log('Trying to set the token');
-        await this._dataManager?.setValue("token", this.state.tokenInput, { scopeType: ""});
-    }
-
-    public async getToken() {
-        await this.sdkReadiness();
-
-        const token = await this._dataManager?.getValue<string>("token");
-        console.log('Token: ', token);
-    }
-
-    public async getServiceConnections() {
-        await this.sdkReadiness();
-
-        const serviceEndpointClient = getClient(ServiceEndpointRestClient);
-        console.log('ServiceEndpointClient:', serviceEndpointClient);
-        const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
-        console.log('ProjectService:', projectService);
-        const project = await projectService.getProject();
-        console.log('Project:', project);
-
-        if (!project) {
-            console.error("No project context found");
-            return;
-        }
-
-        try {
-            const serviceConnections = await serviceEndpointClient.getServiceEndpoints(project.id);
-            console.log('SERVICE CONNECTIONS:', serviceConnections);
-            const serviceConnection = await serviceEndpointClient.getServiceEndpointDetails(project.id, serviceConnections[0].id);
-            console.log('SINGLE SERVICE CONNECTION:', serviceConnection);
-        } catch (error) {
-            console.error(`Error fetching service connections: ${error.message}`);
-        }
-    }
-
     public render(): JSX.Element {
         return (
             <Page className="sample-hub flex-grow">
@@ -100,13 +47,6 @@ class BuildResultTab extends React.Component<{}, IBuildResultTab> {
                     </div>
                     <div className="webcontext-section">
                         Some data
-                    </div>
-                    <div className="webcontext-section">
-                        No token, please apply one below
-                        <input type="text" placeholder="API token" onChange={(e) => this.setState({ tokenInput: e.target.value })} />
-                        <button onClick={() => this.applyToken()}>Apply token</button>
-                        <button onClick={() => this.getToken()}>Get token</button>
-                        <button onClick={() => this.getServiceConnections()}>Get service connections</button>
                     </div>
                 </div>
             </Page>
