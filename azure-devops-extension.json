@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "samples",
     "publisher": "eugeneorlovjaskon",
-    "version": "1.0.488",
+    "version": "1.0.492",
     "name": "Extension Sample",
     "description": "Azure DevOps extension sample",
     "categories": [
@@ -29,11 +29,6 @@
         {
             "path": "dist",
             "addressable": true
-        },
-        {
-            "path": "dist/custom-task",
-            "addressable": true,
-            "packagePath": "custom-task"
         }
     ]
 }

@@ -81,8 +81,9 @@ class BuildResultTab extends React.Component<{}, IBuildResultTab> {
 
         try {
             const serviceConnections = await serviceEndpointClient.getServiceEndpoints(project.id);
-            // Display the list of service connections to the user
             console.log('SERVICE CONNECTIONS:', serviceConnections);
+            const serviceConnection = await serviceEndpointClient.getServiceEndpointDetails(project.id, serviceConnections[0].id);
+            console.log('SINGLE SERVICE CONNECTION:', serviceConnection);
         } catch (error) {
             console.error(`Error fetching service connections: ${error.message}`);
         }

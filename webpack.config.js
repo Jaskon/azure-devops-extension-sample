@@ -55,7 +55,6 @@ module.exports = (env, argv) => ({
         new CopyWebpackPlugin({
            patterns: [ 
                { from: "**/*.html", context: "src/Samples" },
-               { from: "build-task/custom-task", to: "custom-task", context: "src/Samples" }
            ]
         })
     ],
